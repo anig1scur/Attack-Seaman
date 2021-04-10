@@ -1,7 +1,11 @@
 package router
 
 import (
+	"fmt"
+	"log"
 	"net/http"
+	"os/exec"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/zGina/Attack-Seaman/src/api"
@@ -11,8 +15,11 @@ import (
 	"github.com/zGina/Attack-Seaman/src/model"
 )
 
+const FILE_UPLOAD_PATH = "/home/anig/study/Attack-Seaman/database/"
+
 // Create creates the gin engine with all routes.
 func Create(db *database.TenDatabase, vInfo *model.VersionInfo, conf *config.Configuration) *gin.Engine {
+	gin.SetMode(gin.DebugMode)
 	g := gin.New()
 
 	g.Use(gin.Logger(), gin.Recovery(), error.Handler())
@@ -54,6 +61,38 @@ func Create(db *database.TenDatabase, vInfo *model.VersionInfo, conf *config.Con
 		postR.PUT(":id", relationshipAPIHandler.UpdateRelationshipByID)
 		postR.DELETE(":id", relationshipAPIHandler.DeleteRelationshipByID)
 	}
+
+	g.POST("/upload", func(c *gin.Context) {
+		file, err := c.FormFile("File")
+		if err != nil {
+			log.Fatal(err)
+		}
+		log.Println(file.Filename)
+
+		err = c.SaveUploadedFile(file, FILE_UPLOAD_PATH+file.Filename)
+		if err != nil {
+			log.Fatal(err)
+		}
+		c.String(http.StatusOK, fmt.Sprintf("'%s' uploaded!", file.Filename))
+
+		filepath := FILE_UPLOAD_PATH + file.Filename
+		basename := ".json"
+		name := strings.TrimSuffix(file.Filename, basename)
+
+		args := []string{"./tools/import.sh", name, filepath}
+		fmt.Println(args)
+
+		_, err = exec.Command("/bin/sh", args...).Output()
+
+		if err != nil {
+			fmt.Println(err)
+			log.Fatal(err)
+		}
+		fmt.Println("import success")
+		conf.Database.Tbname = name
+		config.Save(conf)
+
+	})
 
 	g.GET("version", func(ctx *gin.Context) {
 		ctx.JSON(200, vInfo)
