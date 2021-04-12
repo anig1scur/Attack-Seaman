@@ -41,12 +41,6 @@ cd ../frontend
 yarn & yarn start
 ```
 
-```sh
-# 将 mongodb 中string字段转化为 Date，方便排序
-> db.mitre_attack.find().forEach(function(doc){doc.created = new Date(doc.created);db.mitre_attack.save(doc)});
-> db.mitre_attack.find().forEach(function(doc){doc.modified = new Date(doc.modified);db.mitre_attack.save(doc)});
-```
-
 ### Mitre ATT&CK 编辑
 
 ![](./attackPatterns.png)
@@ -73,11 +67,6 @@ echo '}'>>new.json
 Attack-Navigator 修改 domain 加载的路径为刚刚得到的`new.json`：
 
 ![](navigator.png)
-
-
-### Tips
-
-#### 何为 bundle
 
 
 # Refs
