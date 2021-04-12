@@ -15,7 +15,7 @@ import (
 	"github.com/zGina/Attack-Seaman/src/model"
 )
 
-const FILE_UPLOAD_PATH = "/home/anig/study/Attack-Seaman/database/"
+const FILE_UPLOAD_PATH = "/app/assets/"
 
 // Create creates the gin engine with all routes.
 func Create(db *database.TenDatabase, vInfo *model.VersionInfo, conf *config.Configuration) *gin.Engine {
@@ -63,9 +63,11 @@ func Create(db *database.TenDatabase, vInfo *model.VersionInfo, conf *config.Con
 	}
 
 	g.POST("/upload", func(c *gin.Context) {
+
 		file, err := c.FormFile("File")
 		if err != nil {
-			log.Fatal(err)
+			c.String(http.StatusBadRequest, "bad request: %s", err.Error())
+			return
 		}
 		log.Println(file.Filename)
 

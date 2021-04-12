@@ -75,6 +75,10 @@ Attack-Navigator 修改 domain 加载的路径为刚刚得到的`new.json`：
 ![](navigator.png)
 
 
+### Tips
+
+#### 何为 bundle
+
 
 # Refs
 - [Ten-Minutes-App](https://github.com/Kirk-Wang/Ten-Minutes-App)
@@ -87,6 +91,3 @@ Attack-Navigator 修改 domain 加载的路径为刚刚得到的`new.json`：
 * [Composite literal uses unkeyed fields](https://stackoverflow.com/questions/54548441/composite-literal-uses-unkeyed-fields)
 * [Convert between int, int64 and string](https://yourbasic.org/golang/convert-int-to-string/)
 * [go test -run does not work for a particular test](https://github.com/stretchr/testify/issues/460)
-```sh
-go test -v -run TestDatabaseSuite ./database -testify.m TestGetUsers
-```

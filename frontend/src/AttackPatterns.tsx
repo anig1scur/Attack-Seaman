@@ -66,7 +66,7 @@ const AttackPatternForm = (props: any) => {
   return (
     <SimpleForm warnWhenUnsavedChanges {...props}>
       <TextInput source="type" fullWidth defaultValue='attack-pattern' disabled  />
-      <TextInput source="id" fullWidth disabled={disabled} validate={required()} />
+      <TextInput source="id" fullWidth disabled={disabled} />
       <TextInput source="name" fullWidth validate={required()} />
       <TextInput source="description" fullWidth />
 
