@@ -81,7 +81,7 @@ func Create(db *database.TenDatabase, vInfo *model.VersionInfo, conf *config.Con
 		basename := ".json"
 		name := strings.TrimSuffix(file.Filename, basename)
 
-		args := []string{"./tools/import.sh", name, filepath}
+		args := []string{"/app/tools/import.sh", name, filepath}
 		fmt.Println(args)
 
 		_, err = exec.Command("/bin/sh", args...).Output()
